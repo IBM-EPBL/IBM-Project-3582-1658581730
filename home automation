@@ -1,0 +1,70 @@
+ if (val1 > 500) 
+  	{
+    	digitalWrite(13, LOW);
+    Serial.print("Bulb ON = ");
+    Serial.print(val1);
+  	} 
+  else 
+  	{
+    	digitalWrite(13, HIGH);
+     Serial.print("Bulb OFF = ");
+    Serial.print(val1);
+  	}
+
+//--------------------------------------------------------------  
+        //------ light & fan control --------// 
+//--------------------------------------------------------------
+ /* sen2Value = digitalRead(9);
+  if (sen2Value == 0) 
+  	{
+    	digitalWrite(10, LOW); //npn as switch OFF
+    	digitalWrite(4, HIGH); // Red LED ON,indicating no motion
+    	digitalWrite(3, LOW); //Green LED OFF, since no Motion detected
+    Serial.print("     || NO Motion Detected    " );
+  	}
+ 
+  if (sen2Value == 1) 
+  	{
+    	digitalWrite(10, HIGH);//npn as switch ON
+    delay(5000);
+    	digitalWrite(4, LOW); // RED LED OFF 
+    	digitalWrite(3, HIGH);//GREEN LED ON , indicating motion detected
+     Serial.print(" 	   || Motion Detected!      " );
+  	}
+  
+  */
+       // ------- Gas Sensor --------//
+
+int val = analogRead(gas_sensor);      //read sensor value
+  Serial.print("|| Gas Sensor Value = ");
+  Serial.print(val);				   //Printing in serial monitor
+//val = map(val, 300, 750, 0, 100); 
+  if (val > limit)
+  	{
+    	tone(8, 650);
+  	}
+ 	delay(300);
+ 	noTone(8);
+
+ 
+      //-------  servo motor  ---------//
+ 
+  sen1Value = 0.01723 * readUltrasonicDistance(6, 6);
+
+  if (sen1Value < 100) 
+  	{
+    	servo_7.write(90);
+    Serial.print(" 	  || Door Open!  ; Distance = ");
+    Serial.print(sen1Value);
+   Serial.print("\n");
+ 
+  	} 
+  else 
+  	{
+    	servo_7.write(0);
+    Serial.print(" 	  || Door Closed! ; Distance =  ");
+    Serial.print(sen1Value);
+    Serial.print("\n");
+  }
+  delay(10); // Delay a little bit to improve simulation performance
+} 
